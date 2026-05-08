@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (carrito.length === 0) return alert("Carrito vacío");
     const msj = carrito.map(i => `- ${i.nombre} (x${i.cantidad})`).join('%0A');
     const total = carrito.reduce((s, i) => s + (i.precio * i.cantidad), 0);
-    const link = `https://wa.me/5491125841686?text=Hola Abundia! Pedido:%0A${msj}%0ATotal: $${total.toLocaleString('es-AR')}`;
+    const link = `https://wa.me/5491164580123?text=Hola Abundia! Pedido:%0A${msj}%0ATotal: $${total.toLocaleString('es-AR')}`;
     window.open(link, "_blank");
   };
 
