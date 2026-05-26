@@ -14,6 +14,7 @@ const whatsappBtn = document.getElementById("whatsapp-btn");
 async function cargarProductosDesdeSheet() {
   try {
     const res = await fetch(sheetURL);
+    if (!res.ok) throw new Error("No se pudo conectar con Google Sheets");
     const texto = await res.text();
     const filas = texto.split("\n").filter(f => f.trim() !== "");
 
@@ -21,7 +22,7 @@ async function cargarProductosDesdeSheet() {
       const celdas = fila.split("\t");
       if (celdas.length >= 4) {
         return {
-          id: index, // Le asignamos un ID único numérico para evitar usar el texto del objeto
+          id: index,
           nombre: celdas[0].trim(),
           precio: parseFloat(celdas[1].replace("$", "").replace(".", "")) || 0,
           imagen: celdas[2].trim(),
@@ -31,9 +32,13 @@ async function cargarProductosDesdeSheet() {
       return null;
     }).filter(p => p !== null);
 
+    // Solo dibujamos los productos al iniciar para no trabar la carga
     renderProductos();
   } catch (error) {
     console.error("Error al cargar datos:", error);
+    if (productList) {
+      productList.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:red;">Error al cargar el catálogo. Por favor reintente.</p>`;
+    }
   }
 }
 
@@ -47,7 +52,7 @@ function renderLista(lista) {
   productList.innerHTML = "";
 
   if (lista.length === 0) {
-    productList.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No se encontraron productos.</p>`;
+    productList.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No se encontraron productos en esta categoría.</p>`;
     return;
   }
 
@@ -69,7 +74,6 @@ function renderLista(lista) {
   });
 }
 
-// Nueva función segura que busca por ID numérico en vez de pasar todo el objeto JSON por HTML
 window.agregarAlCarritoPorId = function(id) {
   const prod = productos.find(p => p.id === id);
   if (!prod) return;
@@ -81,6 +85,7 @@ window.agregarAlCarritoPorId = function(id) {
     carrito.push({ ...prod, cantidad: 1 });
   }
   actualizarCarrito();
+  renderProductos(); // Actualiza los números reflejados en los botones del catálogo
   if (cart) cart.classList.add("visible");
 };
 
@@ -94,7 +99,7 @@ function actualizarCarrito() {
     const li = document.createElement("li");
     li.innerHTML = `
       <img src="${item.imagen}" style="width:40px; height:40px; object-fit:cover;">
-      <div style="flex-grow:1; font-size:0.8rem;">${item.nombre} (x${item.cantidad})</div>
+      <div style="flex-grow:1; font-size:0.8rem; text-align:left;">${item.nombre} (x${item.cantidad})</div>
       <button onclick="eliminarDelCarrito(${index})">🗑️</button>
     `;
     if (cartItems) cartItems.appendChild(li);
@@ -117,13 +122,13 @@ window.eliminarDelCarrito = function(index) {
     carrito.splice(index, 1);
   }
   actualizarCarrito();
-  renderProductos(); // Renderiza los productos para actualizar los números de los botones
+  renderProductos();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("product-search");
 
-  // Buscador
+  // Buscador integrado
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const term = e.target.value.toLowerCase();
@@ -132,10 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Categorías
+  // Selección de Categorías
   document.querySelectorAll("#categories li").forEach(li => {
     li.addEventListener("click", () => {
-      categoriaActual = li.dataset.category;
+      // Tomamos el atributo exacto del HTML
+      categoriaActual = li.dataset.category || "cocina";
       if (searchInput) searchInput.value = "";
       window.scrollTo({ top: 0, behavior: 'smooth' });
       renderProductos();
@@ -147,15 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnToggleInside = document.getElementById("toggle-cart-inside");
 
   if (btnToggle && cart) {
-    btnToggle.onclick = () => {
-      cart.classList.toggle("visible");
-    };
+    btnToggle.onclick = () => cart.classList.toggle("visible");
   }
   
   if (btnToggleInside && cart) {
-    btnToggleInside.onclick = () => {
-      cart.classList.toggle("visible");
-    };
+    btnToggleInside.onclick = () => cart.classList.toggle("visible");
   }
 
   // WhatsApp
@@ -170,5 +172,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   cargarProductosDesdeSheet();
-});;
 });
