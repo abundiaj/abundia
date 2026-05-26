@@ -9,26 +9,25 @@
 </head>
 <body>
 
-  <!-- 1. Buscador fijo arriba de todo -->
   <div class="search-container">
     <input type="text" id="product-search" placeholder="Buscar en Abundia...">
     <span class="search-icon">🔍</span>
   </div>
 
-  <!-- 2. Header con Logo y Carrito -->
   <header>
     <div class="logo-container">
       <img src="img/logo-abundia.png" alt="Logo Abundia" class="header-logo">
     </div>
     <button id="toggle-cart" class="toggle-cart-button">
-      <span class="cart-icon">👜</span> <span class="cart-text">Ver carrito</span> <span id="cart-count-badge" class="main-badge">0</span>
+      <span class="cart-icon">👜</span> 
+      <span class="cart-text">Ver carrito</span> 
+      <span id="cart-count-badge" class="main-badge">0</span>
     </button>
   </header>
   
-  <!-- 3. Navegación por categorías -->
   <nav>
     <ul id="categories">
-      <li data-category="dia del padre">Dia del Padre</li>
+      <li data-category="dia-del-padre">Dia del Padre</li>
       <li data-category="cocina">Cocina</li>
       <li data-category="vasos y copas">Vasos y Copas</li>
       <li data-category="decoracion">Decoracion</li>
@@ -40,10 +39,8 @@
     </ul>
   </nav>
 
-  <!-- 4. Contenedor de Productos -->
   <main id="product-list"></main>
 
-  <!-- 5. Carrito Lateral -->
   <div id="cart">
     <button id="toggle-cart-inside" class="toggle-cart-button" style="float: right;">❌</button>
     <h2>Carrito (<span id="cart-count">0</span>)</h2>
