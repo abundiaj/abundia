@@ -271,106 +271,110 @@ nav li:hover {
 }
 
 /* ==========================================================================
-   8. ADAPTACIÓN EXCLUSIVA PARA CELULARES (MÓVIL)
+   8. ADAPTACIÓN EXCLUSIVA PARA CELULARES (MÓVIL) - LOGO CENTRADO
    ========================================================================== */
 @media (max-width: 600px) {
   
-  /* Ajustamos el espacio superior para que las tarjetas no se tapen */
+  /* Ajustamos el espacio superior para que el catálogo no se tape */
   body {
-    padding-top: 200px !important; 
+    padding-top: 180px !important; 
   }
 
-  /* HEADER: Forzamos la estructura vertical para alinear todo al medio */
+  /* HEADER: Caja contenedora relativa para poder posicionar el carrito */
   header {
-    height: 120px !important;
-    flex-direction: column !important;
-    justify-content: center !important;
+    height: 90px !important; /* Más compacto y elegante */
+    flex-direction: row !important; 
+    justify-content: center !important; /* Forzamos el centrado absoluto del logo */
     align-items: center !important;
-    padding: 10px !important;
-    gap: 8px !important;
+    padding: 0 15px !important;
+    position: fixed !important;
   }
 
-  /* LOGO: Bloque al 100% centrado sin empujarse con el carrito */
+  /* LOGO: Centrado puro en el medio del header */
   .logo-container {
-    width: 100% !important;
+    width: auto !important;
     display: flex !important;
     justify-content: center !important;
-    align-items: center !important;
-    margin: 0 auto !important;
+    margin: 0 auto !important; /* Centrado perfecto */
+    padding: 0 !important;
   }
 
   .header-logo {
-    height: 45px !important; /* Tamaño sutil y fino para móvil */
+    height: 55px !important; /* Logo con buena presencia y tamaño */
     width: auto !important;
     object-fit: contain !important;
   }
 
-  /* BOTÓN DEL CARRITO: Cápsula compacta, fina y centrada abajo del logo */
+  /* BOTÓN DEL CARRITO: Flotando fijo a la derecha sin empujar al logo */
   #toggle-cart {
-    position: relative !important;   /* Rompe el pegado a la derecha de la PC */
-    right: auto !important;          /* Cancela márgenes laterales antiguos */
-    margin: 0 auto !important;       /* Centrado perfecto en la pantalla */
-    width: auto !important;          /* Evita que se estire horizontalmente */
-    min-width: 140px !important;     /* Ancho mínimo delicado */
-    max-width: 180px !important;
-    padding: 6px 16px !important;    /* Menos altura para que se vea fino */
-    font-size: 0.75rem !important;   /* Letra más pequeña */
-    gap: 6px !important;
+    position: absolute !important;   
+    right: 15px !important; /* Pegado al borde derecho del cel */
+    margin: 0 !important;   
+    width: auto !important;          
+    min-width: auto !important; /* Eliminamos anchos mínimos para que sea compacto */
+    padding: 6px 10px !important; /* Altura fina y delicada */
+    font-size: 0.7rem !important; /* Letra bien compacta para celulares */
+    gap: 4px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    z-index: 3100 !important;
+  }
+
+  /* Ocultamos el texto "Ver carrito" si la pantalla es muy chica para evitar amontonamientos */
+  .cart-text {
+    display: none !important;
   }
 
   .main-badge {
-    font-size: 0.7rem !important;
-    padding: 1px 5px !important;
+    font-size: 0.68rem !important;
+    padding: 1px 4px !important;
   }
 
-  /* MENÚ DE CATEGORÍAS: Ubicado justo debajo de la estructura */
+  /* MENÚ DE CATEGORÍAS: Se ubica justo debajo del header */
   nav {
-    top: calc(var(--alto-buscador) + 120px) !important;
-    padding: 6px 0 !important;
+    top: calc(var(--alto-buscador) + 90px) !important;
+    padding: 5px 0 !important;
   }
 
-  /* Ajuste del carrusel horizontal */
+  /* Carrusel horizontal de categorías con barra de scroll fina visible */
   nav ul {
     justify-content: flex-start !important; 
-    padding: 0 10px 4px 10px !important; /* Espacio extra abajo para la barra */
+    padding: 0 10px 4px 10px !important; 
     gap: 0.4rem !important;
-    overflow-x: auto !important; /* Activamos el deslizamiento lateral */
+    overflow-x: auto !important; 
     display: flex !important;
     white-space: nowrap !important;
-    -webkit-overflow-scrolling: touch !important; /* Scroll suave en iOS */
+    -webkit-overflow-scrolling: touch !important; 
     
-    /* ACTIVACIÓN DE LA BARRA DE SCROLL VISIBLE */
-    scrollbar-width: thin !important; /* Grosor fino para Firefox */
+    scrollbar-width: thin !important; 
     scrollbar-color: var(--color-dorado) rgba(0,0,0,0.05) !important; 
   }
 
-  /* Forzamos que se dibuje la barrita de scroll en Chrome y Safari (Android/iPhone) */
+  /* Forzamos la barrita visual en Chrome, Safari y navegadores móviles */
   nav ul::-webkit-scrollbar {
     display: block !important; 
-    height: 4px !important; /* Altura súper delicada de 4 píxeles */
+    height: 3px !important; 
   }
 
   nav ul::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.02) !important; /* Sutil pista gris de fondo */
-    border-radius: 4px !important;
+    background: rgba(0,0,0,0.02) !important; 
+    border-radius: 3px !important;
   }
 
   nav ul::-webkit-scrollbar-thumb {
-    background-color: var(--color-dorado) !important; /* Color oro de tu marca */
-    border-radius: 4px !important;
+    background-color: var(--color-dorado) !important; 
+    border-radius: 3px !important;
   }
 
-  /* BOTONES DE CATEGORÍA: Más pequeños y elegantes */
+  /* BOTONES DE CATEGORÍA: Más chicos y compactos */
   nav li {
     padding: 4px 10px !important;  
-    font-size: 0.72rem !important; /* Letra compacta para que entren más botones */
+    font-size: 0.72rem !important; 
     border-radius: 12px !important;
   }
 
-  /* Carrito lateral a pantalla completa en celulares */
+  /* Carrito lateral a pantalla completa en el celular */
   #cart {
     width: 100% !important;
   }
