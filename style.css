@@ -10,14 +10,14 @@
 }
 
 body {
-  padding-top: 240px; /* Evita que el catálogo se meta debajo del menú */
+  padding-top: 240px; /* Previene que las tarjetas queden debajo del menú */
   margin: 0;
   background-color: var(--color-fondo);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--color-texto);
 }
 
-/* 1. BUSCADOR FIJO */
+/* BUSCADOR FIJO */
 .search-container {
   position: fixed;
   top: 0;
@@ -49,7 +49,7 @@ body {
   color: #aaa;
 }
 
-/* 2. HEADER CON LOGO CENTRADO */
+/* HEADER CON LOGO CENTRADO */
 header {
   position: fixed;
   top: var(--alto-buscador);
@@ -59,7 +59,7 @@ header {
   background-color: var(--color-principal);
   z-index: 3000;
   display: flex;
-  justify-content: center; /* Centra el logo de forma absoluta */
+  justify-content: center; 
   align-items: center;
   padding: 0 2rem;
   box-sizing: border-box;
@@ -77,10 +77,10 @@ header {
   object-fit: contain;
 }
 
-/* 3. BOTÓN DEL CARRITO ESTILIZADO */
+/* BOTÓN DEL CARRITO ESTILIZADO */
 #toggle-cart {
   position: absolute;
-  right: 2rem; /* Lo posiciona a la derecha sin afectar el centrado del logo */
+  right: 2rem; 
   background-color: var(--color-blanco);
   color: var(--color-dorado);
   border: 1px solid var(--color-dorado);
@@ -115,7 +115,7 @@ header {
   color: var(--color-dorado);
 }
 
-/* 4. MENÚ DE NAVEGACIÓN DESLIZABLE */
+/* MENÚ DE NAVEGACIÓN DESLIZABLE */
 nav {
   position: fixed;
   top: calc(var(--alto-buscador) + 120px);
@@ -136,11 +136,11 @@ nav ul {
   padding: 0 1rem;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none; /* Oculta scrollbar en Firefox */
+  scrollbar-width: none; 
 }
 
 nav ul::-webkit-scrollbar {
-  display: none; /* Oculta scrollbar en Chrome/Safari */
+  display: none; 
 }
 
 nav li {
@@ -158,7 +158,7 @@ nav li:hover {
   color: var(--color-blanco);
 }
 
-/* 5. DISEÑO DEL CATÁLOGO */
+/* DISEÑO DEL CATÁLOGO */
 #product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -223,7 +223,7 @@ nav li:hover {
   font-weight: bold;
 }
 
-/* 6. CARRITO INTERNO COMPACTO */
+/* CARRITO INTERNO COMPACTO WITH SCROLL */
 #cart {
   position: fixed;
   right: 0;
@@ -270,7 +270,7 @@ nav li:hover {
   color: var(--color-blanco);
 }
 
-/* 7. ADAPTACIÓN PARA CELULARES */
+/* ADAPTACIÓN PARA CELULARES */
 @media (max-width: 600px) {
   header {
     height: 130px;
@@ -279,7 +279,7 @@ nav li:hover {
 
   .header-logo {
     height: 65px;
-    margin-top: -25px; /* Compensa espacio para dejar el logo arriba del botón */
+    margin-top: -25px; 
   }
 
   #toggle-cart {
@@ -299,7 +299,7 @@ nav li:hover {
   }
 
   nav ul {
-    justify-content: flex-start; /* Permite arrastrar el menú con suavidad */
+    justify-content: flex-start; 
     padding: 0 12px;
   }
 
@@ -309,7 +309,7 @@ nav li:hover {
   }
 
   body {
-    padding-top: 245px; /* Evita solapamientos en pantallas compactas */
+    padding-top: 245px; 
   }
 
   #cart {
