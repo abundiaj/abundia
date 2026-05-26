@@ -17,10 +17,11 @@ async function cargarProductosDesdeSheet() {
     const texto = await res.text();
     const filas = texto.split("\n").filter(f => f.trim() !== "");
 
-    productos = filas.slice(1).map(fila => {
+    productos = filas.slice(1).map((fila, index) => {
       const celdas = fila.split("\t");
       if (celdas.length >= 4) {
         return {
+          id: index, // Le asignamos un ID único numérico para evitar usar el texto del objeto
           nombre: celdas[0].trim(),
           precio: parseFloat(celdas[1].replace("$", "").replace(".", "")) || 0,
           imagen: celdas[2].trim(),
@@ -51,7 +52,7 @@ function renderLista(lista) {
   }
 
   lista.forEach(prod => {
-    const enCarrito = carrito.find(item => item.nombre === prod.nombre);
+    const enCarrito = carrito.find(item => item.id === prod.id);
     const badge = enCarrito ? `<span class="cantidad-badge">${enCarrito.cantidad}</span>` : "";
 
     const div = document.createElement("div");
@@ -60,7 +61,7 @@ function renderLista(lista) {
       <img src="${prod.imagen}" alt="${prod.nombre}">
       <h3>${prod.nombre}</h3>
       <p><strong>$${prod.precio.toLocaleString('es-AR')}</strong></p>
-      <button onclick='agregarAlCarrito(${JSON.stringify(prod)})'>
+      <button onclick="agregarAlCarritoPorId(${prod.id})">
         Agregar al carrito ${badge}
       </button>
     `;
@@ -68,15 +69,19 @@ function renderLista(lista) {
   });
 }
 
-window.agregarAlCarrito = function(prod) {
-  const existe = carrito.find(item => item.nombre === prod.nombre);
+// Nueva función segura que busca por ID numérico en vez de pasar todo el objeto JSON por HTML
+window.agregarAlCarritoPorId = function(id) {
+  const prod = productos.find(p => p.id === id);
+  if (!prod) return;
+
+  const existe = carrito.find(item => item.id === id);
   if (existe) {
     existe.cantidad++;
   } else {
     carrito.push({ ...prod, cantidad: 1 });
   }
   actualizarCarrito();
-  cart.classList.add("visible");
+  if (cart) cart.classList.add("visible");
 };
 
 function actualizarCarrito() {
@@ -97,15 +102,12 @@ function actualizarCarrito() {
 
   const totalProductos = carrito.reduce((s, i) => s + i.cantidad, 0);
 
-  // Validaciones seguras para que no se interrumpa la carga de la web
   if (cartCount) cartCount.textContent = totalProductos;
   
   const mainCartBadge = document.getElementById("cart-count-badge");
   if (mainCartBadge) mainCartBadge.textContent = totalProductos;
 
   if (cartTotal) cartTotal.textContent = total.toLocaleString('es-AR');
-  
-  renderProductos();
 }
 
 window.eliminarDelCarrito = function(index) {
@@ -115,12 +117,13 @@ window.eliminarDelCarrito = function(index) {
     carrito.splice(index, 1);
   }
   actualizarCarrito();
+  renderProductos(); // Renderiza los productos para actualizar los números de los botones
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("product-search");
 
-  // Buscador integrado
+  // Buscador
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const term = e.target.value.toLowerCase();
@@ -129,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Selección de Categorías
+  // Categorías
   document.querySelectorAll("#categories li").forEach(li => {
     li.addEventListener("click", () => {
       categoriaActual = li.dataset.category;
@@ -139,14 +142,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Controladores de apertura/cierre del carrito
+  // Botones de abrir/cerrar carrito
   const btnToggle = document.getElementById("toggle-cart");
   const btnToggleInside = document.getElementById("toggle-cart-inside");
 
-  if (btnToggle && cart) btnToggle.onclick = () => cart.classList.toggle("visible");
-  if (btnToggleInside && cart) btnToggleInside.onclick = () => cart.classList.toggle("visible");
+  if (btnToggle && cart) {
+    btnToggle.onclick = () => {
+      cart.classList.toggle("visible");
+    };
+  }
+  
+  if (btnToggleInside && cart) {
+    btnToggleInside.onclick = () => {
+      cart.classList.toggle("visible");
+    };
+  }
 
-  // Envío automatizado a WhatsApp
+  // WhatsApp
   if (whatsappBtn) {
     whatsappBtn.onclick = () => {
       if (carrito.length === 0) return alert("Carrito vacío");
@@ -158,4 +170,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   cargarProductosDesdeSheet();
+});;
 });
