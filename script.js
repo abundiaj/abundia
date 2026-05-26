@@ -80,7 +80,7 @@ window.agregarAlCarrito = function(prod) {
 };
 
 function actualizarCarrito() {
-  cartItems.innerHTML = "";
+  if (cartItems) cartItems.innerHTML = "";
   let total = 0;
 
   carrito.forEach((item, index) => {
@@ -92,19 +92,19 @@ function actualizarCarrito() {
       <div style="flex-grow:1; font-size:0.8rem;">${item.nombre} (x${item.cantidad})</div>
       <button onclick="eliminarDelCarrito(${index})">🗑️</button>
     `;
-    cartItems.appendChild(li);
+    if (cartItems) cartItems.appendChild(li);
   });
 
   const totalProductos = carrito.reduce((s, i) => s + i.cantidad, 0);
 
-  // Actualiza el contador dentro del carrito lateral
+  // Validaciones seguras para que no se interrumpa la carga de la web
   if (cartCount) cartCount.textContent = totalProductos;
   
-  // Actualiza la burbuja del nuevo botón flotante del Header
   const mainCartBadge = document.getElementById("cart-count-badge");
   if (mainCartBadge) mainCartBadge.textContent = totalProductos;
 
   if (cartTotal) cartTotal.textContent = total.toLocaleString('es-AR');
+  
   renderProductos();
 }
 
@@ -120,22 +120,42 @@ window.eliminarDelCarrito = function(index) {
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("product-search");
 
-  // Buscador
-  searchInput.addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(term));
-    renderLista(filtrados);
-  });
+  // Buscador integrado
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const term = e.target.value.toLowerCase();
+      const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(term));
+      renderLista(filtrados);
+    });
+  }
 
-  // Categorías
+  // Selección de Categorías
   document.querySelectorAll("#categories li").forEach(li => {
     li.addEventListener("click", () => {
       categoriaActual = li.dataset.category;
-      searchInput.value = "";
+      if (searchInput) searchInput.value = "";
       window.scrollTo({ top: 0, behavior: 'smooth' });
       renderProductos();
     });
   });
 
-  // Botones Carrito
-  document.getElementById("toggle-cart").onclick
+  // Controladores de apertura/cierre del carrito
+  const btnToggle = document.getElementById("toggle-cart");
+  const btnToggleInside = document.getElementById("toggle-cart-inside");
+
+  if (btnToggle && cart) btnToggle.onclick = () => cart.classList.toggle("visible");
+  if (btnToggleInside && cart) btnToggleInside.onclick = () => cart.classList.toggle("visible");
+
+  // Envío automatizado a WhatsApp
+  if (whatsappBtn) {
+    whatsappBtn.onclick = () => {
+      if (carrito.length === 0) return alert("Carrito vacío");
+      const msj = carrito.map(i => `- ${i.nombre} (x${i.cantidad})`).join('%0A');
+      const total = carrito.reduce((s, i) => s + (i.precio * i.cantidad), 0);
+      const link = `https://wa.me/5491164580123?text=Hola Abundia! Pedido:%0A${msj}%0ATotal: $${total.toLocaleString('es-AR')}`;
+      window.open(link, "_blank");
+    };
+  }
+
+  cargarProductosDesdeSheet();
+});
