@@ -2,7 +2,7 @@ const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHLrhQjaxFPEO
 
 let productos = [];
 let carrito = [];
-let categoriaActual = "cocina"; 
+let categoriaActual = "dia del padre"; 
 
 const productList = document.getElementById("product-list");
 const cart = document.getElementById("cart");
