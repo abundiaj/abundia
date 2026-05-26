@@ -95,8 +95,16 @@ function actualizarCarrito() {
     cartItems.appendChild(li);
   });
 
-  cartCount.textContent = carrito.reduce((s, i) => s + i.cantidad, 0);
-  cartTotal.textContent = total.toLocaleString('es-AR');
+  const totalProductos = carrito.reduce((s, i) => s + i.cantidad, 0);
+
+  // Actualiza el contador dentro del carrito lateral
+  if (cartCount) cartCount.textContent = totalProductos;
+  
+  // Actualiza la burbuja del nuevo botón flotante del Header
+  const mainCartBadge = document.getElementById("cart-count-badge");
+  if (mainCartBadge) mainCartBadge.textContent = totalProductos;
+
+  if (cartTotal) cartTotal.textContent = total.toLocaleString('es-AR');
   renderProductos();
 }
 
@@ -130,17 +138,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Botones Carrito
-  document.getElementById("toggle-cart").onclick = () => cart.classList.toggle("visible");
-  document.getElementById("toggle-cart-inside").onclick = () => cart.classList.toggle("visible");
-
-  // WhatsApp
-  whatsappBtn.onclick = () => {
-    if (carrito.length === 0) return alert("Carrito vacío");
-    const msj = carrito.map(i => `- ${i.nombre} (x${i.cantidad})`).join('%0A');
-    const total = carrito.reduce((s, i) => s + (i.precio * i.cantidad), 0);
-    const link = `https://wa.me/5491164580123?text=Hola Abundia! Pedido:%0A${msj}%0ATotal: $${total.toLocaleString('es-AR')}`;
-    window.open(link, "_blank");
-  };
-
-  cargarProductosDesdeSheet();
-});
+  document.getElementById("toggle-cart").onclick
