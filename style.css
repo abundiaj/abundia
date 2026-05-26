@@ -270,49 +270,108 @@ nav li:hover {
   color: var(--color-blanco);
 }
 
-/* ADAPTACIÓN PARA CELULARES */
+/* ==========================================================================
+   8. ADAPTACIÓN EXCLUSIVA PARA CELULARES (MÓVIL)
+   ========================================================================== */
 @media (max-width: 600px) {
+  
+  /* Ajustamos el espacio superior para que las tarjetas no se tapen */
+  body {
+    padding-top: 200px !important; 
+  }
+
+  /* HEADER: Forzamos la estructura vertical para alinear todo al medio */
   header {
-    height: 130px;
-    padding: 10px;
+    height: 120px !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px !important;
+    gap: 8px !important;
+  }
+
+  /* LOGO: Bloque al 100% centrado sin empujarse con el carrito */
+  .logo-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
   }
 
   .header-logo {
-    height: 65px;
-    margin-top: -25px; 
+    height: 45px !important; /* Tamaño sutil y fino para móvil */
+    width: auto !important;
+    object-fit: contain !important;
   }
 
+  /* BOTÓN DEL CARRITO: Cápsula compacta, fina y centrada abajo del logo */
   #toggle-cart {
-    position: relative;
-    right: auto;
-    margin-top: 10px;
-    width: 90%;
-    max-width: 260px;
-    justify-content: center;
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    position: relative !important;   /* Rompe el pegado a la derecha de la PC */
+    right: auto !important;          /* Cancela márgenes laterales antiguos */
+    margin: 0 auto !important;       /* Centrado perfecto en la pantalla */
+    width: auto !important;          /* Evita que se estire horizontalmente */
+    min-width: 140px !important;     /* Ancho mínimo delicado */
+    max-width: 180px !important;
+    padding: 6px 16px !important;    /* Menos altura para que se vea fino */
+    font-size: 0.75rem !important;   /* Letra más pequeña */
+    gap: 6px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
+  .main-badge {
+    font-size: 0.7rem !important;
+    padding: 1px 5px !important;
+  }
+
+  /* MENÚ DE CATEGORÍAS: Ubicado justo debajo de la estructura */
   nav {
-    top: calc(var(--alto-buscador) + 130px);
-    padding: 6px 0;
+    top: calc(var(--alto-buscador) + 120px) !important;
+    padding: 6px 0 !important;
   }
 
+  /* Ajuste del carrusel horizontal */
   nav ul {
-    justify-content: flex-start; 
-    padding: 0 12px;
+    justify-content: flex-start !important; 
+    padding: 0 10px 4px 10px !important; /* Espacio extra abajo para la barra */
+    gap: 0.4rem !important;
+    overflow-x: auto !important; /* Activamos el deslizamiento lateral */
+    display: flex !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important; /* Scroll suave en iOS */
+    
+    /* ACTIVACIÓN DE LA BARRA DE SCROLL VISIBLE */
+    scrollbar-width: thin !important; /* Grosor fino para Firefox */
+    scrollbar-color: var(--color-dorado) rgba(0,0,0,0.05) !important; 
   }
 
+  /* Forzamos que se dibuje la barrita de scroll en Chrome y Safari (Android/iPhone) */
+  nav ul::-webkit-scrollbar {
+    display: block !important; 
+    height: 4px !important; /* Altura súper delicada de 4 píxeles */
+  }
+
+  nav ul::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.02) !important; /* Sutil pista gris de fondo */
+    border-radius: 4px !important;
+  }
+
+  nav ul::-webkit-scrollbar-thumb {
+    background-color: var(--color-dorado) !important; /* Color oro de tu marca */
+    border-radius: 4px !important;
+  }
+
+  /* BOTONES DE CATEGORÍA: Más pequeños y elegantes */
   nav li {
-    padding: 5px 12px;
-    font-size: 0.8rem;
+    padding: 4px 10px !important;  
+    font-size: 0.72rem !important; /* Letra compacta para que entren más botones */
+    border-radius: 12px !important;
   }
 
-  body {
-    padding-top: 245px; 
-  }
-
+  /* Carrito lateral a pantalla completa en celulares */
   #cart {
-    width: 100%;
+    width: 100% !important;
   }
 }
