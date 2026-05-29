@@ -223,7 +223,7 @@ nav li:hover {
   font-weight: bold;
 }
 
-/* CARRITO INTERNO COMPACTO WITH SCROLL */
+/* CARRITO LATERAL (Estructura corregida) */
 #cart {
   position: fixed;
   right: 0;
@@ -236,19 +236,24 @@ nav li:hover {
   transition: transform 0.3s ease;
   padding: 20px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+  
+  /* NUEVO: Forzamos a que el carrito sea un contenedor vertical estricto */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important; /* Evita que el panel entero haga scroll */
 }
 
 #cart.visible { transform: translateX(0); }
 
+/* LISTA DE PRODUCTOS: Es lo único que va a deslizarse */
 #cart-items {
   list-style: none;
   padding: 0;
   margin: 15px 0;
-  flex-grow: 1;
-  overflow-y: auto;
+  flex-grow: 1 !important; /* Ocupa todo el espacio disponible en el medio */
+  overflow-y: auto !important; /* Activa el scroll solo para los productos */
+  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
 }
 
 #whatsapp-btn {
