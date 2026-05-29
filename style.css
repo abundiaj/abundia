@@ -379,8 +379,43 @@ nav li:hover {
     border-radius: 12px !important;
   }
 
-  /* Carrito lateral a pantalla completa en el celular */
+  /* CARRITO FLOTANTE COMPACTO PARA CELULARES */
   #cart {
-    width: 100% !important;
+    width: 90% !important;        /* Ya no ocupa todo el ancho, deja aire a los lados */
+    max-width: 340px !important;  
+    height: 65vh !important;       /* ¡Clave! Ocupa solo el 65% de la pantalla (un poco más de la mitad) */
+    top: 70px !important;          /* Lo bajamos un poquito para que no tape el buscador */
+    right: 5% !important;          /* Centrado horizontal respecto al 90% de ancho */
+    border-radius: 20px !important;/* Bordes redondeados premium para que parezca una tarjeta flotante */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Sombra pronunciada para darle profundidad */
+    padding: 15px !important;
+    
+    /* Mantenemos la estructura flexible interna */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow: hidden !important;
+    
+    /* Ajuste de animación para que entre desde la derecha */
+    transform: translateX(120%);
+  }
+
+  #cart.visible { 
+    transform: translateX(0) !important; 
+  }
+
+  /* LISTA INTERNA CON SCROLL AUTOMÁTICO */
+  #cart-items {
+    margin: 8px 0 !important;
+    flex-grow: 1 !important;
+    overflow-y: auto !important;
+    max-height: calc(65vh - 140px) !important; /* Limita la lista para que jamás empuje al botón */
+  }
+
+  /* BOTÓN DE WHATSAPP: Siempre visible y fijo en la base de la tarjetita */
+  #whatsapp-btn {
+    padding: 10px !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 0 !important; /* Ya no necesita margen de seguridad porque el carrito no toca el fondo */
   }
 }
